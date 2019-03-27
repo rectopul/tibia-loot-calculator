@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Teste de Style</title>
+	<link rel="stylesheet" href="/css/style.css"> 
+	<!-- jQuery -->
+	<script src="/js/jquery-3.3.1.min.js"></script> 
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/animate.css">
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/efects.js"></script>
+	<script src="/js/clipboard.min.js"></script>
+	
+</head>
+<body>
+
+	<div class="container">
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title text-center" id="exampleModalCenterTitle"><img src="/img/Minotaur_Skull.gif" alt="Skull Minotaur Tibia" /> Ops! Temos um Problema</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        ...
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	  	<!-- Content here -->
+
+	  	<!-- Image and text -->
+  		<nav class="navbar navbar-light bg-light">
+		  <a class="navbar-brand" href="#">
+		    <img src="/img/cip_post_icon.gif"  height="30" class="d-inline-block align-top" alt="">
+		    Calculadora de Loots
+		  </a>
+		</nav>
+		
+
+		<div class="row">
+			<!-- NOME DE USUARIO -->
+			<div class="insert_user">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card" style="margin-top: 40px;">
+						  	<div class="card-header">
+						    	Usuário
+						  	</div>
+						  	<div class="card-body">
+							    <form name="insert_user" class="form_insert_user">
+								  	<div class="form-row">
+									    <div class="col">
+									      <input type="text" class="form-control nick_name" placeholder="Informe seu apelido">
+									    </div>
+									    <div class="col">
+								    		<button type="submit" class="btn btn-primary insert_nickname">Entrar</button>
+									    </div>
+								  	</div>
+								</form>
+						  	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ROOMS -->
+			<div class="rooms">
+				<div class="row">
+					<!-- SALAS -->
+					<div class="col-md-8">
+						<div class="card">
+					  		<div class="card-header">
+					    		Salas
+					  		</div>
+					  		<div class="card-body">
+					    		<!-- Lista de Salas -->
+					    		<ul class="list-group List_of_rooms">
+								</ul>
+					  		</div>
+						</div>
+					</div>
+
+					<!-- CRIAR SALA -->
+					<div class="col-md-4">
+						<div class="card">
+						  	<div class="card-header">
+						    Criar sala
+						  	</div>
+						  	<div class="card-body">
+						    	
+						    	<!-- FORMULARIO -->
+
+						    	<form class="form_create_rooms">
+								  <div class="form-row align-items-center">
+								    <div class="col-auto">
+								      <div class="input-group mb-2">
+								        <div class="input-group-prepend">
+								          <div class="input-group-text">@</div>
+								        </div>
+								        <input type="text" class="form-control name_roomcreated" id="inlineFormInputGroup" placeholder="Nome da Sala">
+								      </div>
+								    </div>
+								    <div class="col-auto">
+								      <button type="submit" class="btn btn-success mb-2">Criar</button>
+								    </div>
+								  </div>
+								</form>
+						  	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="infos_character">
+				<div class="row">
+					<!-- usuarios online -->
+					<div class="col-md-3">
+
+						<div class="card">
+					  		<div class="card-header">
+						    	Players online
+						  	</div>
+						  	<div class="card-body">
+							    <ul class="list-group usersonline">
+							  		<!-- <li class="list-group-item active">Rogério</li>
+							  		<li class="list-group-item">Dudu</li>
+							  		<li class="list-group-item">Kadu</li>
+						  			<li class="list-group-item">Giovane</li>
+							  		<li class="list-group-item">Raul</li> -->
+								</ul>
+					  		</div>
+						</div>
+					</div>
+
+					<!-- FORMULARIO DE BALANCE -->
+					<div class="col-md-4">
+						<!-- INFORMAÇOES DO PERSONAGEM -->
+				     	<div class="card card_buttoms">
+				     		<div class="card-header">
+							    <h5 class="card-title">
+							    	<img src="/img/Skeleton_Warrior.gif" alt="Skeleton Warrior"> 
+							    	Informações da Hunt <div class="float-right text-right status_connect">Desconectado</div>
+							    </h5>
+						  	</div>
+						  	<div class="card-body">
+							    <form class="infowastes">
+								  <div class="form-group">
+								    <label for="InputCharacter">Character</label>
+								    <input type="text" class="form-control" id="InputCharacter" aria-describedby="emailHelp" placeholder="Digite seu Nick">
+								    <small id="charlHelp" class="form-text text-muted">O Nome de seu personagem servirá para reconhecimento no ato de pagamento.</small>
+								  </div>
+
+								  <div class="form-group">
+								    <select class="form-control form-control-lg" placeholder="Vocação" id="selectVocation">
+									  <option>Knight</option>
+									  <option>Paladino</option>
+									  <option>Sorcerer</option>
+									  <option>Druid</option>
+									</select>
+								  </div>
+
+								  <div class="form-group">
+								    <label for="InputBalance">Waste</label>
+								    <input type="text" class="form-control" id="InputBalance" placeholder="Digite seu Balance">
+								  </div>
+								  
+								  <button type="submit" class="btn btn-primary">Submit</button>
+								</form>
+						  	</div>
+						</div>
+				    </div>
+				    <div class="col-md-5">		    
+						<div class="rows">
+							<audio class="sondnotify" src="/sound/message1.mp3"></audio>
+							<div class="card card_buttoms">
+								<div class="card-header">
+								    <img src="/img/icon-news.gif" alt="Nes Balance"> Hunt: Prision -3 <div class="datenow"></div>
+							  	</div>
+								<div class="card-body">
+									<div class="card-title"><h4>Waste dos Players</h4><br></div>
+									<div class="voc_butoms buttonsvoc voc-knight hideVoc"><div class="copynick">Copy</div>
+										<span class="">
+											<img src="/img/Outfit_Knight_Male_Addon_3.gif" alt="Knight"> EK
+										</span>
+										<div>
+											<h4 class="name_ek">Nick Do char</h4><h3 class="balance_ek">0</h3>
+										</div>
+									</div>
+
+									<div class="voc_butoms buttonsvoc voc-druid hideVoc"><div class="copynick">Copy</div>
+										<span class="">
+											<img src="/img/Outfit_Druid_Female_Addon_3.gif" alt="Druid"> ED
+										</span>
+										<div>
+											<h4 class="name_ed">Nick Do char</h4><h3 class="balance_ed">0</h3>
+										</div>
+									</div>
+
+									<div class="voc_butoms buttonsvoc voc-sorcerer hideVoc"><div class="copynick">Copy</div>
+										<span class="">
+											<img src="/img/Outfit_Mage_Male_Addon_3.gif" alt="Sorcerer"> MS
+										</span>
+										<div>
+											<h4 class="name_ms">Nick Do char</h4> <h3 class="balance_ms">0</h3>
+										</div>
+									</div>
+
+									<div class="voc_butoms buttonsvoc voc-paladin hideVoc"><div class="copynick">Copy</div>
+										<span class="">
+											<img src="/img/Outfit_Hunter_Female_Addon_3.gif" alt="Paladino"> RP
+										</span>
+										<div>
+											<h4 class="name_rp">Nick Do char</h4> <h3 class="balance_rp">0</h3>
+										</div>
+									</div> 
+								</div>
+							</div>
+								
+						</div>
+							
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- RESUMO DO PROFIT -->
+
+		<div class="card resume_of_calc">
+			<div class="card-header">
+		    	<h5>Calculo</h5>
+	  		</div>
+		  	<div class="card-body">
+			    <p> <b><span class="pagante">Pagante</span></b> deve Pagar <span class="pagamento_1">VALOR</span> para <b><span class="receb_1">Player 1</span></b> <br>
+			    <b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_2">VALOR</span> para <b><span class="receb_2">Player 2</span></b><br>
+			    <b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_3">VALOR</span> para <b><span class="receb_3">Player 3</span></b> <br>
+			    O valor de lucro será de <b><span class="valor_lucro">Lucro</span></b> para cada player</p>
+			    <a href="#" class="btn btn-primary">Go somewhere</a>
+		  	</div>
+		</div>
+	</div>
+	<script src="/socket.io/socket.io.js"></script>
+</body>
+</html>

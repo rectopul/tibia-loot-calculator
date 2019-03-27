@@ -1,0 +1,122 @@
+h1{
+	color: #068;
+	font-family: verdana;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: normal;
+	text-transform: lowercase;
+}
+
+.buttonsvoc{
+	width: 100%;
+	height: 80px;
+	line-height: 40px;
+	display: block;
+	margin-bottom: 20px;
+	position: relative;
+	border:  1px solid #d7d7d7;
+	border-radius: 4px;
+	padding: 10px;
+}
+
+body .card_buttoms { position: relative;}
+
+.buttonsvoc > span{
+	width: 70px;
+	height: 100%;
+	position: relative;
+	line-height: 40px;
+	float: left;
+	display: inline-block;
+	font-size: 14px;
+	font-size: normal;
+	letter-spacing: -1px;
+	font-weight: bold;
+}
+
+.buttonsvoc > div{
+	width: 175px;
+	height: 100%;
+	position: relative;
+	line-height: 40px;
+	float: right;
+	display: inline-block;
+	text-align: center;
+}
+
+.buttonsvoc h4{
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+}
+
+.buttonsvoc height: 3px;{
+	font-size: 24px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.buttonsvoc > .copynick{
+	position: absolute;
+	width: 40px;
+	height: 20px;
+	line-height: 17px;
+	font-size: 12px;
+	right: 0;
+	top: 0;
+	display: block;
+	color: #d7d7d7;
+	font-weight: lighter;
+	border-bottom: 1px solid #d7d7d7;
+	border-left: 1px solid #d7d7d7;
+	border-top-right-radius: 4px;
+	cursor: pointer;
+	z-index: 10;
+}
+
+.copynick:hover{
+	background-color: #727272;
+	color: #fff;
+}
+
+.hideVoc{
+	display: none;
+}
+
+.showVoc {
+	animation-duration: 3s;
+  	animation-delay: 0;
+  	animation-iteration-count: 1;
+}
+
+[class^="name_"]{
+}
+
+.colortest { color: #000; }
+
+/* nick name */
+
+.infos_character {
+	width: 100%;
+	margin-top: 40px;
+	display: none;
+}
+
+.rooms {
+	width: 100%;
+	display: none;
+	margin-top: 40px;
+}
+
+.insert_user{
+	width: 100%;
+}
+
+
+
+
+/* RESUMO DE CALCULO */
+
+.resume_of_calc{
+	margin-top: 60px;
+}

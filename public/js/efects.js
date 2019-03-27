@@ -160,7 +160,6 @@ jQuery(document).ready(function($) {
 
 			}else{
 				socket.emit('create', $('.name_roomcreated').val())
-
 				socket.emit('getRooms', $('.nick_name').val())
 			}
 

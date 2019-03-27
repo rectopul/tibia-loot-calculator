@@ -3,8 +3,9 @@ const app = require('express')()
 const path = require('path')
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
-var users = []
-var rooms = []
+var users = [],
+	rooms = [],
+	connections = []
 
 
 //Configuraçoes
@@ -19,36 +20,26 @@ var rooms = []
 
 //socket io
 	io.on('connection', (socket)=>{
-		
+		connections.push(socket)
+		//updateusers()
+		console.log('Connected: %s sockets connected', connections.length)
 
 		// Disconnect
 		socket.on('disconnect', (data)=>{
-			//if(!socket.usersname) return
-			//users.splice(users.indexOf(socket.usersname), 1)
+			users.splice(users.indexOf(socket.username), 1)
 			updateusers()
+			connections.splice(connections.indexOf(socket), 1)
 			console.log(users)
+			//console.log('Disconnected: %s sockets connected', connections.length)
 		})
 
-
-		// socket.on('chat message', function(id,msg){
-  //           //envia a mensagem para a sala <id>
-  //           io.to(id).emit('chat message', msg)
-  //           console.log(msg);
-  //       })
-
-		// socket.on('msg', (msg)=>{
-		// 	//console.log(msg)
-		// 	socket.broadcast.emit('msg', msg)
-		// })
-
-		// New user
 
 		socket.on('new user', function(data, callback){
 			
 			callback(true)
-			socket.usernames = data
+			socket.username = data
 			
-			users.push(socket.usernames)
+			users.push(socket.username)
 			updateusers()
 			console.log(users)
 		})
@@ -57,6 +48,7 @@ var rooms = []
 
 		socket.on('create', (room)=>{
 			rooms.push(room)
+			socket.emit('getRooms', rooms)
 			//console.log(rooms)
 		})
 
@@ -65,7 +57,7 @@ var rooms = []
 		// List rooms
 
 		socket.on('getRooms', function() {
-		    socket.emit('rooms', rooms)
+		    io.sockets.emit('rooms', rooms)
 		    console.log(rooms)
 		})
 

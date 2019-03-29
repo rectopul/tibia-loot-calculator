@@ -124,7 +124,7 @@ jQuery(document).ready(function($) {
 					$('.rooms').show()
 					socket.emit('new user', $('.nick_name').val(), function(data){
 						if(data){
-							console.info(data)
+							//console.info(data)
 						}
 					})
 					
@@ -193,9 +193,13 @@ jQuery(document).ready(function($) {
 
 					socket.emit("subscribe", {room: room_join})
 
+					socket.on('subscribe', (room)=>{
+						$('.name_room').html(room)
+					})
+
 					$('.rooms').hide()
 					$('.infos_character').show()
-					console.log(event.currentTarget.attributes.nome.nodeValue)
+					//console.log(event.currentTarget.attributes.nome.nodeValue)
 				})
 			}else{
 				$('.List_of_rooms').html('Não há nenhuma sala no momento. Crie uma para começar!')

@@ -36,17 +36,58 @@
 		  </div>
 		</div>
 	  	<!-- Content here -->
-
-	  	<!-- Image and text -->
-  		<nav class="navbar navbar-light bg-light">
-		  <a class="navbar-brand" href="#">
-		    <img src="/img/cip_post_icon.gif"  height="30" class="d-inline-block align-top" alt="">
-		    Calculadora de Loots
-		  </a>
-		</nav>
 		
 
 		<div class="row">
+			<!-- WASTES -->
+			<div class="card-info-waste card card_buttoms">
+				<audio class="sondnotify" src="/sound/message1.mp3"></audio>
+				<div class="card-header">
+				    <img src="/img/icon-news.gif" alt="Nes Balance"> <div class="name_room">Hunt: Prision -3</div> <div class="datenow"></div>
+			  	</div>
+				<div class="card-body">
+
+					<!-- BODY CARDS -->
+					<div class="flex-cards-itens players_screen">
+						<div class="voc_butoms buttonsvoc voc-knight hideVoc"><div class="copynick">Copy</div>
+							<span class="">
+								<img src="/img/Outfit_Knight_Male_Addon_3.gif" alt="Knight"> EK
+							</span>
+							<div>
+								<h4 class="name_ek">Nick Do char</h4><h3 class="balance_ek">0</h3>
+							</div>
+						</div>
+
+						<div class="voc_butoms buttonsvoc voc-druid hideVoc"><div class="copynick">Copy</div>
+							<span class="">
+								<img src="/img/Outfit_Druid_Female_Addon_3.gif" alt="Druid"> ED
+							</span>
+							<div>
+								<h4 class="name_ed">Nick Do char</h4><h3 class="balance_ed">0</h3>
+							</div>
+						</div>
+
+						<div class="voc_butoms buttonsvoc voc-sorcerer hideVoc"><div class="copynick">Copy</div>
+							<span class="">
+								<img src="/img/Outfit_Mage_Male_Addon_3.gif" alt="Sorcerer"> MS
+							</span>
+							<div>
+								<h4 class="name_ms">Nick Do char</h4> <h3 class="balance_ms">0</h3>
+							</div>
+						</div>
+
+						<div class="voc_butoms buttonsvoc voc-paladin hideVoc"><div class="copynick">Copy</div>
+							<span class="">
+								<img src="/img/Outfit_Hunter_Female_Addon_3.gif" alt="Paladino"> RP
+							</span>
+							<div>
+								<h4 class="name_rp">Nick Do char</h4> <h3 class="balance_rp">0</h3>
+							</div>
+						</div> 
+					</div>
+					
+				</div>
+			</div>
 			<!-- NOME DE USUARIO -->
 			<div class="insert_user">
 				<div class="row">
@@ -116,8 +157,13 @@
 						  	</div>
 						</div>
 					</div>
+
+					
+					
 				</div>
 			</div>
+
+
 
 			<div class="infos_character">
 				<div class="row">
@@ -177,74 +223,27 @@
 						  	</div>
 						</div>
 				    </div>
-				    <div class="col-md-5">		    
-						<div class="rows">
-							<audio class="sondnotify" src="/sound/message1.mp3"></audio>
-							<div class="card card_buttoms">
-								<div class="card-header">
-								    <img src="/img/icon-news.gif" alt="Nes Balance"> <div class="name_room">Hunt: Prision -3</div> <div class="datenow"></div>
-							  	</div>
-								<div class="card-body">
-									<div class="card-title"><h4>Waste dos Players</h4><br></div>
-									<div class="voc_butoms buttonsvoc voc-knight hideVoc"><div class="copynick">Copy</div>
-										<span class="">
-											<img src="/img/Outfit_Knight_Male_Addon_3.gif" alt="Knight"> EK
-										</span>
-										<div>
-											<h4 class="name_ek">Nick Do char</h4><h3 class="balance_ek">0</h3>
-										</div>
-									</div>
 
-									<div class="voc_butoms buttonsvoc voc-druid hideVoc"><div class="copynick">Copy</div>
-										<span class="">
-											<img src="/img/Outfit_Druid_Female_Addon_3.gif" alt="Druid"> ED
-										</span>
-										<div>
-											<h4 class="name_ed">Nick Do char</h4><h3 class="balance_ed">0</h3>
-										</div>
-									</div>
-
-									<div class="voc_butoms buttonsvoc voc-sorcerer hideVoc"><div class="copynick">Copy</div>
-										<span class="">
-											<img src="/img/Outfit_Mage_Male_Addon_3.gif" alt="Sorcerer"> MS
-										</span>
-										<div>
-											<h4 class="name_ms">Nick Do char</h4> <h3 class="balance_ms">0</h3>
-										</div>
-									</div>
-
-									<div class="voc_butoms buttonsvoc voc-paladin hideVoc"><div class="copynick">Copy</div>
-										<span class="">
-											<img src="/img/Outfit_Hunter_Female_Addon_3.gif" alt="Paladino"> RP
-										</span>
-										<div>
-											<h4 class="name_rp">Nick Do char</h4> <h3 class="balance_rp">0</h3>
-										</div>
-									</div> 
-								</div>
-							</div>
-								
+				    <!-- RESUMO DO PROFIT -->
+					<div class="col-md-5">
+						<div class="card resume_of_calc">
+							<div class="card-header">
+						    	<h5>Calculo</h5>
+					  		</div>
+						  	<div class="card-body codigo_ts" id="copytoTS">
+							    <p> <b><span class="pagante">Pagante</span></b> deve Pagar <span class="pagamento_1">VALOR</span> para <b><span class="receb_1">Player 1</span></b> <br>
+							    <b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_2">VALOR</span> para <b><span class="receb_2">Player 2</span></b><br>
+							    <b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_3">VALOR</span> para <b><span class="receb_3">Player 3</span></b> <br>
+							    O valor de lucro será de <b><span class="valor_lucro">Lucro</span></b> para cada player</p>
+							    <button type="button" class="btn btn-primary copytots" data-clipboard-target="#copytoTS">Copiar Para Teamspeak</button>
+						  	</div>
 						</div>
-							
 					</div>
+				    
 				</div>
 			</div>
 		</div>
-
-		<!-- RESUMO DO PROFIT -->
-
-		<div class="card resume_of_calc">
-			<div class="card-header">
-		    	<h5>Calculo</h5>
-	  		</div>
-		  	<div class="card-body">
-			    <p> <b><span class="pagante">Pagante</span></b> deve Pagar <span class="pagamento_1">VALOR</span> para <b><span class="receb_1">Player 1</span></b> <br>
-			    <b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_2">VALOR</span> para <b><span class="receb_2">Player 2</span></b><br>
-			    <b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_3">VALOR</span> para <b><span class="receb_3">Player 3</span></b> <br>
-			    O valor de lucro será de <b><span class="valor_lucro">Lucro</span></b> para cada player</p>
-			    <a href="#" class="btn btn-primary">Go somewhere</a>
-		  	</div>
-		</div>
+		
 	</div>
 	<script src="/socket.io/socket.io.js"></script>
 </body>

@@ -9,7 +9,8 @@ var charactername
 var charactervoc
 var characterbalance
 var effectsAnimate = 'animated slideInDown',
-	room_join = ''
+	room_join = '',
+	code_ts = ''
 
 // RASHIDCITY
 
@@ -138,7 +139,7 @@ jQuery(document).ready(function($) {
 		// Get Users
 
 		socket.on('get user', (data)=>{
-			console.info(data)
+			//console.info(data)
 			var ins_users_online = ''
 			for (var i = 0; i < data.length; i++) {
 				ins_users_online += '<li class="list-group-item">'+data[i]+'</li>'
@@ -191,14 +192,16 @@ jQuery(document).ready(function($) {
 					/* Act on the event */
 					room_join = event.currentTarget.attributes.nome.nodeValue
 
-					socket.emit("subscribe", {room: room_join})
+					socket.emit("subscribe", {room: room_join, date: RetornaDataHoraAtual()})
 
-					socket.on('subscribe', (room)=>{
+					socket.on('join_to_room', (room)=>{
 						$('.name_room').html(room)
+						//console.log(room)
 					})
 
 					$('.rooms').hide()
 					$('.infos_character').show()
+					$('.card-info-waste').attr('style', 'display: flex;')
 					//console.log(event.currentTarget.attributes.nome.nodeValue)
 				})
 			}else{
@@ -209,7 +212,7 @@ jQuery(document).ready(function($) {
 
 		socket.on('msg', function(msg) {
 			/* Act on the event */
-			console.log(msg)
+			//console.log(msg)
 			if (msg[1] == "Knight") {
 				$('.balance_ek').html(msg[2])
 				$('.name_ek').html(msg[0])
@@ -310,8 +313,42 @@ jQuery(document).ready(function($) {
 				$('.valor_lucro').html(resumecalc.Profit)
 			}
 			
+			code_ts = $('.codigo_ts').html()
+			
 
-			console.info( calculo_loots('balance_ek','balance_ed','balance_ms','balance_rp') )
+			code_ts = code_ts.replace(/<p>/g,'').replace(/<\/p>/g, '').replace(/<\/span>/g, '')
+			code_ts = code_ts.replace(/<b>/g, '[b]').replace(/<span class="valor_lucro">/g, '[color=green]')
+			code_ts = code_ts.replace(/<\/b>/g, '[/b]').replace(/<span class="pagante">/g, '')
+			code_ts = code_ts.replace('<span class="pagamento_1">', '').replace('<span class="pagamento_2">', '').replace('<span class="pagamento_3">', '')
+			code_ts = code_ts.replace('<span class="receb_1">', '')
+			code_ts = code_ts.replace('<span class="receb_2">', '')
+			code_ts = code_ts.replace('<span class="receb_3">', '')
+			code_ts = code_ts.replace('<button type="button" class="btn btn-primary copytots" data-clipboard-target="#copytoTS">Copiar Para Teamspeak</button>', '')
+
+			//console.info(code_ts)
+
+			//$('.codigo_ts').html( code_ts )
+
+
+
+			copyotsfunc = new ClipboardJS('.copytots', {
+				text: function() {
+		            return code_ts;
+		        }
+			})
+
+			copyotsfunc.on('success', function(e) {
+			    //console.info('Action:', e.action);
+			    //console.info('Text:', e.text);
+			    //console.info('Trigger:', e.trigger);
+
+			    e.clearSelection();
+			})
+
+			clipboard.destroy()
+			//console.info(code_ts)
+
+			//console.info( calculo_loots('balance_ek','balance_ed','balance_ms','balance_rp') )
 			$('.sondnotify').trigger('play')
 		});
 
@@ -376,6 +413,7 @@ jQuery(document).ready(function($) {
 
 		//Copy to clipboard
 			var clipboard = new ClipboardJS('.btntoCopy')
+			clipboard.destroy()
 
 			$('.copynick').on('click', function(event) {
 				event.preventDefault();

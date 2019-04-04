@@ -70,6 +70,8 @@ var users = [],
 		socket.on('subscribe', (data) => { 
 			socket.join(data.room)
 
+			io.sockets.emit('join_to_room', data.room)
+
 			console.log('Voce entrouy na sala: '+ data.room)
 
 			socket.on('msg', function(msg){

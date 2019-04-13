@@ -9,6 +9,7 @@ h1{
 body .card-info-waste{
 	width: 100%;
 	display: none;
+	
 }
 
 .name_room, .datenow{
@@ -63,7 +64,7 @@ body .card_buttoms { position: relative;}
 	text-align: center;
 }
 
-.buttonsvoc height: 3px;{
+.buttonsvoc {
 	font-size: 24px;
 	font-weight: bold;
 	text-align: center;
@@ -102,8 +103,8 @@ body .card_buttoms { position: relative;}
   	animation-iteration-count: 1;
 }
 
-[class^="name_"]{
-}
+/* [class^="name_"]{
+} */
 
 .colortest { color: #000; }
 
@@ -129,3 +130,15 @@ body .card_buttoms { position: relative;}
 
 
 /* RESUMO DE CALCULO */
+
+.receb_1,
+.receb_2,
+.receb_3 {
+	cursor: pointer;
+}
+
+.receb_1:hover,
+.receb_2:hover,
+.receb_3:hover {
+	color: #068;
+}

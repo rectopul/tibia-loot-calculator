@@ -216,6 +216,7 @@ jQuery(document).ready(function($) {
 			if (msg[1] == "Knight") {
 				$('.balance_ek').html(msg[2])
 				$('.name_ek').html(msg[0])
+				$('.voc-knight').attr('text-transfer="Transfer "')
 
 				$('.voc-knight').addClass('showVoc '+effectsAnimate).removeClass('hideVoc')
 			} else if (msg[1] == "Druid") {
@@ -245,14 +246,17 @@ jQuery(document).ready(function($) {
 				// ED
 				$('.pagamento_1').html(resumecalc.ED)
 				$('.receb_1').html($('.name_ed').html())
+				$('.receb_1').attr('data-transfer', 'Transfer '+resumecalc.ED+' To '+ $('.name_ed').html())			
 
 				// MS
 				$('.pagamento_2').html(resumecalc.MS)
 				$('.receb_2').html($('.name_ms').html())
+				$('.receb_2').attr('data-transfer', 'Transfer '+resumecalc.MS+' To '+ $('.name_ms').html())	
 
 				// ED
 				$('.pagamento_3').html(resumecalc.RP)
 				$('.receb_3').html($('.name_rp').html())
+				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.RP+' To '+ $('.name_rp').html())	
 
 				// LUCRO
 				$('.valor_lucro').html(resumecalc.Profit)
@@ -264,14 +268,17 @@ jQuery(document).ready(function($) {
 				// EK
 				$('.pagamento_1').html(resumecalc.EK)
 				$('.receb_1').html($('.name_ek').html())
+				$('.receb_1').attr('data-transfer', 'Transfer '+resumecalc.EK+' To '+ $('.name_ek').html())
 
 				// MS
 				$('.pagamento_2').html(resumecalc.MS)
 				$('.receb_2').html($('.name_ms').html())
+				$('.receb_2').attr('data-transfer', 'Transfer '+resumecalc.MS+' To '+ $('.name_ms').html())
 
 				// ED
 				$('.pagamento_3').html(resumecalc.RP)
 				$('.receb_3').html($('.name_rp').html())
+				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.RP+' To '+ $('.name_rp').html())
 
 				// LUCRO
 				$('.valor_lucro').html(resumecalc.Profit)
@@ -282,14 +289,17 @@ jQuery(document).ready(function($) {
 				// EK
 				$('.pagamento_1').html(resumecalc.EK)
 				$('.receb_1').html($('.name_ek').html())
+				$('.receb_1').attr('data-transfer', 'Transfer '+resumecalc.EK+' To '+ $('.name_ek').html())
 
 				// MS
 				$('.pagamento_2').html(resumecalc.ED)
 				$('.receb_2').html($('.name_ed').html())
+				$('.receb_2').attr('data-transfer', 'Transfer '+resumecalc.ED+' To '+ $('.name_ed').html())
 
 				// ED
 				$('.pagamento_3').html(resumecalc.RP)
 				$('.receb_3').html($('.name_rp').html())
+				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.RP+' To '+ $('.name_rp').html())
 
 				// LUCRO
 				$('.valor_lucro').html(resumecalc.Profit)
@@ -300,14 +310,17 @@ jQuery(document).ready(function($) {
 				// EK
 				$('.pagamento_1').html(resumecalc.EK)
 				$('.receb_1').html($('.name_ek').html())
+				$('.receb_1').attr('data-transfer', 'Transfer '+resumecalc.EK+' To '+ $('.name_ek').html())
 
 				// MS
 				$('.pagamento_2').html(resumecalc.MS)
 				$('.receb_2').html($('.name_ms').html())
+				$('.receb_2').attr('data-transfer', 'Transfer '+resumecalc.MS+' To '+ $('.name_ms').html())
 
 				// ED
 				$('.pagamento_3').html(resumecalc.ED)
 				$('.receb_3').html($('.name_ed').html())
+				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.ED+' To '+ $('.name_ed').html())
 
 				// LUCRO
 				$('.valor_lucro').html(resumecalc.Profit)
@@ -333,7 +346,7 @@ jQuery(document).ready(function($) {
 
 			copyotsfunc = new ClipboardJS('.copytots', {
 				text: function() {
-		            return code_ts;
+		            return code_ts
 		        }
 			})
 
@@ -342,15 +355,28 @@ jQuery(document).ready(function($) {
 			    //console.info('Text:', e.text);
 			    //console.info('Trigger:', e.trigger);
 
-			    e.clearSelection();
+			    e.clearSelection()
 			})
 
-			clipboard.destroy()
-			//console.info(code_ts)
+			var textTransfer
 
-			//console.info( calculo_loots('balance_ek','balance_ed','balance_ms','balance_rp') )
+			$('.copytoTransfer').click(event => {
+				console.log(event.currentTarget.dataset.transfer)
+
+				textTransfer = event.currentTarget.dataset.transfer
+				// console.log($(this))
+			})
+
+			new ClipboardJS('.copytoTransfer', {
+				text: function(trigger) {
+					return textTransfer
+				}
+			})
+
+			
 			$('.sondnotify').trigger('play')
 		});
+
 
 	//Form Submit
 		$('.infowastes').submit(function(event) {

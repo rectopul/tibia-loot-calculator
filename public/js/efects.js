@@ -395,7 +395,7 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 
 			$('.valor_lucro').number(true)
 			$('[class^="pagamento_"]').number(true)
-			$( '[class^="balance_"]' ).number(true)
+			//$( '[class^="balance_"]' ).number(true)
 
 			new ClipboardJS('.copytoTransfer', {
 				text: function(trigger) {

@@ -239,6 +239,17 @@ jQuery(document).ready(function($) {
 			// Printar Resumos
 			var resumecalc = calculo_loots('balance_ek','balance_ed','balance_ms','balance_rp')
 
+			function CopytoTs(pagante, p1, p1calc, p2, p2calc, p3, p3calc, profitclc) {
+var text = `                         
+[b]${pagante}[/b] deve Pagar ${p1calc} para [b]${p1}[/b].
+[b]${pagante}[/b] deve Pagar ${p2calc} para [b]${p1}[/b].
+[b]${pagante}[/b] deve Pagar ${p3calc} para [b]${p1}[/b].
+O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada player`
+				return text
+			}
+
+			var textTsCopy
+
 			if(resumecalc.pagante == "EK"){
 
 				$('.pagante').html($('.name_ek').html())
@@ -259,6 +270,7 @@ jQuery(document).ready(function($) {
 				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.RP+' To '+ $('.name_rp').html())	
 
 				// LUCRO
+				textTsCopy = CopytoTs($('.name_ek').html(), $('.name_ed').html(), resumecalc.ED, $('.name_ms').html(), resumecalc.MS, $('.name_rp').html(), resumecalc.RP, resumecalc.Profit)
 				$('.valor_lucro').html(resumecalc.Profit)
 				
 			} else if(resumecalc.pagante == "ED") {
@@ -281,6 +293,7 @@ jQuery(document).ready(function($) {
 				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.RP+' To '+ $('.name_rp').html())
 
 				// LUCRO
+				textTsCopy = CopytoTs($('.name_ed').html(), $('.name_ek').html(), resumecalc.EK, $('.name_ms').html(), resumecalc.MS, $('.name_rp').html(), resumecalc.RP, resumecalc.Profit)
 				$('.valor_lucro').html(resumecalc.Profit)
 			} else if(resumecalc.pagante == "MS") {
 
@@ -302,6 +315,7 @@ jQuery(document).ready(function($) {
 				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.RP+' To '+ $('.name_rp').html())
 
 				// LUCRO
+				textTsCopy = CopytoTs($('.name_ms').html(), $('.name_ek').html(), resumecalc.EK, $('.name_ed').html(), resumecalc.ED, $('.name_rp').html(), resumecalc.RP, resumecalc.Profit)
 				$('.valor_lucro').html(resumecalc.Profit)
 			} else if(resumecalc.pagante == "RP") {
 
@@ -323,20 +337,19 @@ jQuery(document).ready(function($) {
 				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.ED+' To '+ $('.name_ed').html())
 
 				// LUCRO
+				textTsCopy = CopytoTs($('.name_rp').html(), $('.name_ek').html(), resumecalc.EK, $('.name_ms').html(), resumecalc.MS, $('.name_ed').html(), resumecalc.ED, resumecalc.Profit)
 				$('.valor_lucro').html(resumecalc.Profit)
 			}
+
+			console.info(code_ts)
 			
-			code_ts = $('.codigo_ts').html()
 			
 
-			code_ts = code_ts.replace(/<p>/g,'').replace(/<\/p>/g, '').replace(/<\/span>/g, '')
+			code_ts = code_ts.replace(/<p>/g,'').replace(/<\/p>/g, '').replace(/<\/span>/g, ' ')
 			code_ts = code_ts.replace(/<b>/g, '[b]').replace(/<span class="valor_lucro">/g, '[color=green]')
-			code_ts = code_ts.replace(/<\/b>/g, '[/b]').replace(/<span class="pagante">/g, '')
-			code_ts = code_ts.replace('<span class="pagamento_1">', '').replace('<span class="pagamento_2">', '').replace('<span class="pagamento_3">', '')
-			code_ts = code_ts.replace('<span class="receb_1">', '')
-			code_ts = code_ts.replace('<span class="receb_2">', '')
-			code_ts = code_ts.replace('<span class="receb_3">', '')
-			code_ts = code_ts.replace('<button type="button" class="btn btn-primary copytots" data-clipboard-target="#copytoTS">Copiar Para Teamspeak</button>', '')
+			code_ts = code_ts.replace(/<\/b>/g, '[/b]').replace(/<span class="pagante">/g, ' ')
+			code_ts = code_ts.replace(/<\/?span[^>]*>|<\/?br[^>]*>+/g, ' ')
+			code_ts = code_ts.replace('<button type="button" class="btn btn-primary copytots" data-clipboard-target="#copytoTS">Copiar Para Teamspeak</button>', ' ')
 
 			//console.info(code_ts)
 
@@ -346,30 +359,21 @@ jQuery(document).ready(function($) {
 
 			copyotsfunc = new ClipboardJS('.copytots', {
 				text: function() {
-		            return code_ts
+		            return textTsCopy
 		        }
 			})
 
 			copyotsfunc.on('success', function(e) {
 			    //console.info('Action:', e.action);
-			    //console.info('Text:', e.text);
+			    console.info('Text:', e.text)
 			    //console.info('Trigger:', e.trigger);
 
 			    e.clearSelection()
 			})
 
-			var textTransfer
-
-			$('.copytoTransfer').click(event => {
-				console.log(event.currentTarget.dataset.transfer)
-
-				textTransfer = event.currentTarget.dataset.transfer
-				// console.log($(this))
-			})
-
 			new ClipboardJS('.copytoTransfer', {
 				text: function(trigger) {
-					return textTransfer
+					return trigger.getAttribute('data-transfer')
 				}
 			})
 

@@ -11,6 +11,7 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/efects.js"></script>
 	<script src="/js/clipboard.min.js"></script>
+	<script src="/js/jquery.number.min.js"></script>
 	
 </head>
 <body>
@@ -49,7 +50,7 @@
 
 					<!-- BODY CARDS -->
 					<div class="flex-cards-itens players_screen">
-						<div class="voc_butoms buttonsvoc voc-knight hideVoc"><div class="copynick">Copy</div>
+						<div class="voc_butoms buttonsvoc voc-knight hideVoc">
 							<span class="">
 								<img src="/img/Outfit_Knight_Male_Addon_3.gif" alt="Knight"> EK
 							</span>
@@ -58,7 +59,7 @@
 							</div>
 						</div>
 
-						<div class="voc_butoms buttonsvoc voc-druid hideVoc"><div class="copynick">Copy</div>
+						<div class="voc_butoms buttonsvoc voc-druid hideVoc">
 							<span class="">
 								<img src="/img/Outfit_Druid_Female_Addon_3.gif" alt="Druid"> ED
 							</span>
@@ -67,7 +68,7 @@
 							</div>
 						</div>
 
-						<div class="voc_butoms buttonsvoc voc-sorcerer hideVoc"><div class="copynick">Copy</div>
+						<div class="voc_butoms buttonsvoc voc-sorcerer hideVoc">
 							<span class="">
 								<img src="/img/Outfit_Mage_Male_Addon_3.gif" alt="Sorcerer"> MS
 							</span>
@@ -76,7 +77,7 @@
 							</div>
 						</div>
 
-						<div class="voc_butoms buttonsvoc voc-paladin hideVoc"><div class="copynick">Copy</div>
+						<div class="voc_butoms buttonsvoc voc-paladin hideVoc">
 							<span class="">
 								<img src="/img/Outfit_Hunter_Female_Addon_3.gif" alt="Paladino"> RP
 							</span>
@@ -231,10 +232,12 @@
 						    	<h5>Calculo</h5>
 					  		</div>
 						  	<div class="card-body codigo_ts" id="copytoTS">
-							    <p><b><span class="pagante">Pagante</span></b> deve Pagar <span class="pagamento_1">VALOR</span> para <b><span class="receb_1 copytoTransfer" data-transfer="">Player 1</span></b> <br>
-							    <b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_2">VALOR</span> para <b><span class="receb_2 copytoTransfer" data-transfer="">Player 2</span></b><br>
-							    <b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_3">VALOR</span> para <b><span class="receb_3 copytoTransfer" data-transfer="">Player 3</span></b> <br>
-							    O valor de lucro será de <b><span class="valor_lucro">Lucro</span></b> para cada player</p>
+							    <p>
+										<!-- <b><span class="pagante">Pagante</span></b> deve Pagar <span class="pagamento_1">VALOR</span> para <b><span class="receb_1 copytoTransfer" data-transfer="">Player 1</span></b> <br>
+										<b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_2">VALOR</span> para <b><span class="receb_2 copytoTransfer" data-transfer="">Player 2</span></b><br>
+										<b><span class="pagante">Pagante</b> deve Pagar <span class="pagamento_3">VALOR</span> para <b><span class="receb_3 copytoTransfer" data-transfer="">Player 3</span></b> <br>
+										O valor de lucro será de <b><span class="valor_lucro">Lucro</span></b> para cada player -->
+								</p>
 							    <button type="button" class="btn btn-primary copytots" data-clipboard-target="#copytoTS">Copiar Para Teamspeak</button>
 						  	</div>
 						</div>

@@ -10,7 +10,11 @@ var charactervoc
 var characterbalance
 var effectsAnimate = 'animated slideInDown',
 	room_join = '',
-	code_ts = ''
+	code_ts = '',
+	NameEK,
+	NameED,
+	NameMS,
+	NameRP
 
 // RASHIDCITY
 
@@ -62,37 +66,38 @@ function calculo_loots(balanceEk,balanceEd,balanceMs,balanceRp){
 
 	var profit = allBalance / countbalance
 
-	ekBalance = profit - ekBalance
-	edBalance = profit - edBalance
-	msBalance = profit - msBalance
-	rpBalance = profit - rpBalance
+	if(ekBalance != ''){ ekBalance = profit - ekBalance }
+	if(edBalance != ''){ edBalance = profit - edBalance }
+	if(msBalance != ''){ msBalance = profit - msBalance }
+	if(rpBalance != ''){ rpBalance = profit - rpBalance }
 
 	var listBalance = {'Profit' : profit}
 
 	if ( ekBalance == Math.min(ekBalance,edBalance,msBalance, rpBalance)) {
 		listBalance['pagante'] = 'EK'
 	} else {
-		listBalance['EK'] = ekBalance
+		if(ekBalance != '') { listBalance['EK'] = ekBalance }
 	}
 
 	if ( edBalance == Math.min(ekBalance,edBalance,msBalance, rpBalance)) {
 		listBalance['pagante'] = 'ED'
 	} else {
-		listBalance['ED'] = edBalance
+		if(edBalance != '') { listBalance['ED'] = edBalance }
 	}
 	
 	if ( msBalance == Math.min(ekBalance,edBalance,msBalance, rpBalance)) {
 		listBalance['pagante'] = 'MS'
 	} else {
-		listBalance['MS'] = msBalance
+		if(msBalance != '') { listBalance['MS'] = msBalance }
 	}
 
 	if ( rpBalance == Math.min(ekBalance,edBalance,msBalance, rpBalance)) {
 		listBalance['pagante'] = 'RP'
 	} else {
-		listBalance['RP'] = rpBalance
+		if(rpBalance != '') { listBalance['RP'] = rpBalance }
 	}
 
+	console.log(listBalance)
 
 	return listBalance
 
@@ -214,22 +219,26 @@ jQuery(document).ready(function($) {
 			/* Act on the event */
 			//console.log(msg)
 			if (msg[1] == "Knight") {
+				NameEK = msg[0]
 				$('.balance_ek').html(msg[2])
 				$('.name_ek').html(msg[0])
 				$('.voc-knight').attr('text-transfer="Transfer "')
 
 				$('.voc-knight').addClass('showVoc '+effectsAnimate).removeClass('hideVoc')
 			} else if (msg[1] == "Druid") {
+				NameED = msg[0]
 				$('.balance_ed').html(msg[2])
 				$('.name_ed').html(msg[0])
 
 				$('.voc-druid').addClass('showVoc '+effectsAnimate).removeClass('hideVoc')
 			} else if (msg[1] == "Sorcerer") {
+				NameMS = msg[0]
 				$('.balance_ms').html(msg[2])
 				$('.name_ms').html(msg[0])
 
 				$('.voc-sorcerer').addClass('showVoc '+effectsAnimate).removeClass('hideVoc')
 			} else if (msg[1] == "Paladino") {
+				NameRP = msg[0]
 				$('.balance_rp').html(msg[2])
 				$('.name_rp').html(msg[0])
 
@@ -249,97 +258,151 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 			}
 
 			var textTsCopy
+			
+			
+			// FUNCAO QUE GERA O TEXTO DO CALCULO
+
+			function CalcVocation(pagante, vocation, value, playernumber) {
+				var nameVocInsert,
+				PagName			
+
+				if(value){
+					// CHECK NOME DO PAGANTE
+					if(pagante == 'ED'){ pagante = NameED
+						
+					}else if(pagante == 'MS'){ PagName = NameMS
+						
+					}else if(pagante =='EK'){ PagName = NameEK
+						
+					}else if(pagante == 'RP'){ PagName = NameRP}
+					
+					
+					// CHECK NOME DE CADA VOCAÇAO
+					if(vocation == 'ED'){ nameVocInsert = NameED
+
+					}else if(vocation == 'MS'){ nameVocInsert = NameMS
+
+					}else if(vocation == 'EK'){ nameVocInsert = NameEK
+
+					}else if(vocation == 'RP'){ nameVocInsert = NameRP}
+
+										
+					text_dinamic_calc = `<b><span class="pagante">${PagName}</span></b> deve Pagar <span class="pagamento_${playernumber}">
+					${value}</span> para <b><span class="receb_${playernumber} copytoTransfer" data-transfer="Transfer ${value} To ${nameVocInsert}">${nameVocInsert}</span></b></br>`
+
+					return text_dinamic_calc
+				}
+			}
+
+			function addCommas(nStr)
+			{
+				nStr += '';
+				x = nStr.split('.');
+				x1 = x[0];
+				x2 = x.length > 1 ? '.' + x[1] : '';
+				var rgx = /(\d+)(\d{3})/;
+				while (rgx.test(x1)) {
+					x1 = x1.replace(rgx, '$1' + ',' + '$2');
+				}
+				return x1 + x2;
+			}
+
+			console.log($.number(resumecalc.Profit))
 
 			if(resumecalc.pagante == "EK"){
 
-				$('.pagante').html($('.name_ek').html())
+				$('.pagante').html(NameEK)
 
-				// ED
-				$('.pagamento_1').html(resumecalc.ED)
-				$('.receb_1').html($('.name_ed').html())
-				$('.receb_1').attr('data-transfer', 'Transfer '+resumecalc.ED+' To '+ $('.name_ed').html())			
+				var textToInsert = ''
+				if(resumecalc.ED){ textToInsert += CalcVocation(resumecalc.pagante, 'ED', resumecalc.ED, '1') }
 
-				// MS
-				$('.pagamento_2').html(resumecalc.MS)
-				$('.receb_2').html($('.name_ms').html())
-				$('.receb_2').attr('data-transfer', 'Transfer '+resumecalc.MS+' To '+ $('.name_ms').html())	
+				if(resumecalc.MS){ textToInsert += CalcVocation(resumecalc.pagante, 'MS', resumecalc.MS, '2') }
+				
+				if(resumecalc.RP){ textToInsert += CalcVocation(resumecalc.pagante, 'RP', resumecalc.RP, '3') }
 
-				// ED
-				$('.pagamento_3').html(resumecalc.RP)
-				$('.receb_3').html($('.name_rp').html())
-				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.RP+' To '+ $('.name_rp').html())	
+				var ReplaceNumbemProfit = $.number(resumecalc.Profit)
+
+				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit+'</span></b> para cada player'
+
+				$('.codigo_ts').find('p').html(textToInsert)
 
 				// LUCRO
-				textTsCopy = CopytoTs($('.name_ek').html(), $('.name_ed').html(), resumecalc.ED, $('.name_ms').html(), resumecalc.MS, $('.name_rp').html(), resumecalc.RP, resumecalc.Profit)
+				textTsCopy = CopytoTs(NameEK, NameED, resumecalc.ED, NameMS, resumecalc.MS, NameRP, resumecalc.RP, resumecalc.Profit)
 				$('.valor_lucro').html(resumecalc.Profit)
 				
 			} else if(resumecalc.pagante == "ED") {
 
-				$('.pagante').html($('.name_ed').html())
+				$('.pagante').html(NameED)
 
-				// EK
-				$('.pagamento_1').html(resumecalc.EK)
-				$('.receb_1').html($('.name_ek').html())
-				$('.receb_1').attr('data-transfer', 'Transfer '+resumecalc.EK+' To '+ $('.name_ek').html())
+				var textToInsert = ''
+				if(resumecalc.EK){ textToInsert += CalcVocation(resumecalc.pagante, 'EK', resumecalc.ED, '1') }
 
-				// MS
-				$('.pagamento_2').html(resumecalc.MS)
-				$('.receb_2').html($('.name_ms').html())
-				$('.receb_2').attr('data-transfer', 'Transfer '+resumecalc.MS+' To '+ $('.name_ms').html())
+				if(resumecalc.MS){ textToInsert += CalcVocation(resumecalc.pagante, 'MS', resumecalc.MS, '2') }
+				
+				if(resumecalc.RP){ textToInsert += CalcVocation(resumecalc.pagante, 'RP', resumecalc.RP, '3') }
 
-				// ED
-				$('.pagamento_3').html(resumecalc.RP)
-				$('.receb_3').html($('.name_rp').html())
-				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.RP+' To '+ $('.name_rp').html())
+				var ReplaceNumbemProfit = $.number(resumecalc.Profit)
+
+				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit+'</span></b> para cada player'
+
+				$('.codigo_ts').find('p').html(textToInsert)
 
 				// LUCRO
-				textTsCopy = CopytoTs($('.name_ed').html(), $('.name_ek').html(), resumecalc.EK, $('.name_ms').html(), resumecalc.MS, $('.name_rp').html(), resumecalc.RP, resumecalc.Profit)
+				textTsCopy = CopytoTs(NameED, NameEK, resumecalc.EK, NameMS, resumecalc.MS, NameRP, resumecalc.RP, resumecalc.Profit)
 				$('.valor_lucro').html(resumecalc.Profit)
 			} else if(resumecalc.pagante == "MS") {
 
-				$('.pagante').html($('.name_ms').html())
+				$('.pagante').html( NameMS )
 
-				// EK
-				$('.pagamento_1').html(resumecalc.EK)
-				$('.receb_1').html($('.name_ek').html())
-				$('.receb_1').attr('data-transfer', 'Transfer '+resumecalc.EK+' To '+ $('.name_ek').html())
+				var textToInsert = ''
+				if(resumecalc.EK){ textToInsert += CalcVocation(resumecalc.pagante, 'EK', resumecalc.ED, '1') }
 
-				// MS
-				$('.pagamento_2').html(resumecalc.ED)
-				$('.receb_2').html($('.name_ed').html())
-				$('.receb_2').attr('data-transfer', 'Transfer '+resumecalc.ED+' To '+ $('.name_ed').html())
+				if(resumecalc.ED){ textToInsert += CalcVocation(resumecalc.pagante, 'ED', resumecalc.MS, '2') }
+				
+				if(resumecalc.RP){ textToInsert += CalcVocation(resumecalc.pagante, 'RP', resumecalc.RP, '3') }
 
-				// ED
-				$('.pagamento_3').html(resumecalc.RP)
-				$('.receb_3').html($('.name_rp').html())
-				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.RP+' To '+ $('.name_rp').html())
+				var ReplaceNumbemProfit = $.number(resumecalc.Profit)
+
+				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit+'</span></b> para cada player'
+
+				$('.codigo_ts').find('p').html(textToInsert)
 
 				// LUCRO
-				textTsCopy = CopytoTs($('.name_ms').html(), $('.name_ek').html(), resumecalc.EK, $('.name_ed').html(), resumecalc.ED, $('.name_rp').html(), resumecalc.RP, resumecalc.Profit)
+				textTsCopy = CopytoTs(NameMS, NameEK, resumecalc.EK, NameED, resumecalc.ED, NameRP, resumecalc.RP, resumecalc.Profit)
 				$('.valor_lucro').html(resumecalc.Profit)
 			} else if(resumecalc.pagante == "RP") {
 
 				$('.pagante').html($('.name_rp').html())
 
-				// EK
-				$('.pagamento_1').html(resumecalc.EK)
-				$('.receb_1').html($('.name_ek').html())
-				$('.receb_1').attr('data-transfer', 'Transfer '+resumecalc.EK+' To '+ $('.name_ek').html())
+				var textToInsert = ''
+				if(resumecalc.EK){ textToInsert += CalcVocation(resumecalc.pagante, 'EK', resumecalc.ED, '1') }
 
-				// MS
-				$('.pagamento_2').html(resumecalc.MS)
-				$('.receb_2').html($('.name_ms').html())
-				$('.receb_2').attr('data-transfer', 'Transfer '+resumecalc.MS+' To '+ $('.name_ms').html())
+				if(resumecalc.ED){ textToInsert += CalcVocation(resumecalc.pagante, 'ED', resumecalc.MS, '2') }
+				
+				if(resumecalc.MS){ textToInsert += CalcVocation(resumecalc.pagante, 'MS', resumecalc.RP, '3') }
 
-				// ED
-				$('.pagamento_3').html(resumecalc.ED)
-				$('.receb_3').html($('.name_ed').html())
-				$('.receb_3').attr('data-transfer', 'Transfer '+resumecalc.ED+' To '+ $('.name_ed').html())
+				var ReplaceNumbemProfit = $.number(resumecalc.Profit)
+
+				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit+'</span></b> para cada player'
+
+				$('.codigo_ts').find('p').html(textToInsert)
 
 				// LUCRO
-				textTsCopy = CopytoTs($('.name_rp').html(), $('.name_ek').html(), resumecalc.EK, $('.name_ms').html(), resumecalc.MS, $('.name_ed').html(), resumecalc.ED, resumecalc.Profit)
+				textTsCopy = CopytoTs(NameRP, NameEK, resumecalc.EK, NameED, resumecalc.ED, NameMS, resumecalc.MS, resumecalc.Profit)
+
 				$('.valor_lucro').html(resumecalc.Profit)
 			}
+
+			$('.valor_lucro').number(true)
+			$('[class^="pagamento_"]').number(true)
+			$( '[class^="balance_"]' ).number(true)
+
+			new ClipboardJS('.copytoTransfer', {
+				text: function(trigger) {
+					console.log(trigger.getAttribute('data-transfer'))
+					return trigger.getAttribute('data-transfer')
+				}
+			})
 
 			console.info(code_ts)
 			
@@ -370,16 +433,9 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 
 			    e.clearSelection()
 			})
-
-			new ClipboardJS('.copytoTransfer', {
-				text: function(trigger) {
-					return trigger.getAttribute('data-transfer')
-				}
-			})
-
 			
 			$('.sondnotify').trigger('play')
-		});
+		})
 
 
 	//Form Submit

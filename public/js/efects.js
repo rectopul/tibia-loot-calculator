@@ -1,3 +1,65 @@
+// FUNCAO DE CALCULO DE PROFIT
+
+	// PEGAR SOMAR OS BALANCES E PEGAR O RESULTADO
+
+	function balancestest(EKBalance, RPBalance, EDBalance, MSBalance) {
+		var numPlayers = 0,
+		balanceResult = 0
+
+		if(EKBalance){ 
+			balanceResult = balanceResult+parseInt(EKBalance)
+			numPlayers++ 
+		}
+		if(RPBalance){numPlayers++ 
+			balanceResult = balanceResult+parseInt(RPBalance)}
+		if(EDBalance){numPlayers++ 
+			balanceResult = balanceResult+parseInt(EDBalance)}
+		if(MSBalance){numPlayers++ 
+			balanceResult = balanceResult+parseInt(MSBalance)}
+
+		var singleProfit = balanceResult / numPlayers,
+		balancegpto = {'Profit' : singleProfit}
+
+		// Verifica o pagante e Adiciona os valores no Objeto
+			// VERIFICA O EK
+			if(EKBalance == Math.max(EKBalance, RPBalance, EDBalance, MSBalance)){
+				balancegpto['EK'] = singleProfit
+				balancegpto['pagante'] = 'EK'
+			}else{
+				if(EKBalance != ''){ balancegpto['EK'] = parseInt(singleProfit-EKBalance) }
+			}
+
+			// VERIFICA O RP
+			if(RPBalance == Math.max(EKBalance, RPBalance, EDBalance, MSBalance)){
+				balancegpto['RP'] = parseInt(singleProfit)
+				balancegpto['pagante'] = 'RP'
+			}else{
+				if(RPBalance != ''){ balancegpto['RP'] = parseInt(singleProfit-RPBalance) }
+			}
+
+			// VERIFICA O ED
+			if(EDBalance == Math.max(EKBalance, RPBalance, EDBalance, MSBalance)){
+				balancegpto['ED'] = parseInt(singleProfit)
+				balancegpto['pagante'] = 'ED'
+			}else{
+				if(EDBalance != ''){ balancegpto['ED'] = parseInt(singleProfit-EDBalance) }
+			}
+			
+			// VERIFICA O MS
+			if(MSBalance == Math.max(EKBalance, RPBalance, EDBalance, MSBalance)){
+				balancegpto['MS'] = parseInt(singleProfit)
+				balancegpto['pagante'] = 'MS'
+			}else{
+				if(MSBalance != ''){ balancegpto['MS'] = parseInt(singleProfit-MSBalance) }
+			}
+
+		return balancegpto
+	}
+
+	console.log(balancestest(1700000, 2450000, -625000, -312000))
+	
+
+
 function RetornaDataHoraAtual(){
   var dNow = new Date();
   var localdate = dNow.getDate() + '/' + (dNow.getMonth()+1) + '/' + dNow.getFullYear() + ' ' + dNow.getHours() + ':' + dNow.getMinutes();
@@ -36,72 +98,6 @@ if(dayName[now.getDay() ] == "segunda"){
 	console.info('Rashid está em Edron')
 }else if(dayName[now.getDay() ] == "domingo"){
 	console.info('Rashid está em Carlin')
-}
-
-function calculo_loots(balanceEk,balanceEd,balanceMs,balanceRp){
-
-	var ekBalance = parseInt($('.'+balanceEk+'').html()),
-		edBalance = parseInt($('.'+balanceEd+'').html()),
-		msBalance = parseInt($('.'+balanceMs+'').html()),
-		rpBalance = parseInt($('.'+balanceRp+'').html()),
-		allBalance = ekBalance + edBalance + msBalance + rpBalance,
-		printing
-
-
-	var countbalance = 0
-
-	// Verificar quantidade de player
-
-	if( ekBalance != 0 ){
-		countbalance++
-	} if( edBalance != 0 ){
-		countbalance++
-	} if( msBalance != 0 ){
-		countbalance++
-	} if( rpBalance != 0 ){
-		countbalance++
-	}
-
-	// Verificar quem tem mais
-
-	var profit = allBalance / countbalance
-
-	if(ekBalance != ''){ ekBalance = profit - ekBalance }
-	if(edBalance != ''){ edBalance = profit - edBalance }
-	if(msBalance != ''){ msBalance = profit - msBalance }
-	if(rpBalance != ''){ rpBalance = profit - rpBalance }
-
-	var listBalance = {'Profit' : profit}
-
-	if ( ekBalance == Math.min(ekBalance,edBalance,msBalance, rpBalance)) {
-		listBalance['pagante'] = 'EK'
-	} else {
-		if(ekBalance != '') { listBalance['EK'] = ekBalance }
-	}
-
-	if ( edBalance == Math.min(ekBalance,edBalance,msBalance, rpBalance)) {
-		listBalance['pagante'] = 'ED'
-	} else {
-		if(edBalance != '') { listBalance['ED'] = edBalance }
-	}
-	
-	if ( msBalance == Math.min(ekBalance,edBalance,msBalance, rpBalance)) {
-		listBalance['pagante'] = 'MS'
-	} else {
-		if(msBalance != '') { listBalance['MS'] = msBalance }
-	}
-
-	if ( rpBalance == Math.min(ekBalance,edBalance,msBalance, rpBalance)) {
-		listBalance['pagante'] = 'RP'
-	} else {
-		if(rpBalance != '') { listBalance['RP'] = rpBalance }
-	}
-
-	console.log(listBalance)
-
-	return listBalance
-
-
 }
 
 jQuery(document).ready(function($) {
@@ -214,46 +210,64 @@ jQuery(document).ready(function($) {
 			}
 		})
 		
-
+		var calcEK = '',
+			calcRP = '',
+			calcED = '',
+			calcMS = ''
+			
 		socket.on('msg', function(msg) {
 			/* Act on the event */
 			//console.log(msg)
+
 			if (msg[1] == "Knight") {
 				NameEK = msg[0]
+				calcEK = msg[2]
+				
 				$('.balance_ek').html(msg[2])
 				$('.name_ek').html(msg[0])
 				$('.voc-knight').attr('text-transfer="Transfer "')
-
 				$('.voc-knight').addClass('showVoc '+effectsAnimate).removeClass('hideVoc')
 			} else if (msg[1] == "Druid") {
 				NameED = msg[0]
+				calcED = msg[2]
 				$('.balance_ed').html(msg[2])
 				$('.name_ed').html(msg[0])
 
 				$('.voc-druid').addClass('showVoc '+effectsAnimate).removeClass('hideVoc')
 			} else if (msg[1] == "Sorcerer") {
 				NameMS = msg[0]
+				calcMS = msg[2]
 				$('.balance_ms').html(msg[2])
 				$('.name_ms').html(msg[0])
 
 				$('.voc-sorcerer').addClass('showVoc '+effectsAnimate).removeClass('hideVoc')
 			} else if (msg[1] == "Paladino") {
 				NameRP = msg[0]
+				calcRP = msg[2]
 				$('.balance_rp').html(msg[2])
 				$('.name_rp').html(msg[0])
 
 				$('.voc-paladin').addClass('showVoc '+effectsAnimate).removeClass('hideVoc')
 			} 
 
+			console.info(balancestest(parseInt(calcEK), calcRP, calcED, calcMS))
+
+			console.info(calcEK, calcRP, calcED, calcMS)
+
 			// Printar Resumos
-			var resumecalc = calculo_loots('balance_ek','balance_ed','balance_ms','balance_rp')
+			
+			var resumecalc = balancestest(calcEK, calcRP, calcED, calcMS)
 
 			function CopytoTs(pagante, p1, p1calc, p2, p2calc, p3, p3calc, profitclc) {
-var text = `                         
-[b]${pagante}[/b] deve Pagar ${p1calc} para [b]${p1}[/b].
-[b]${pagante}[/b] deve Pagar ${p2calc} para [b]${p1}[/b].
-[b]${pagante}[/b] deve Pagar ${p3calc} para [b]${p1}[/b].
-O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada player`
+				var text = p1calc ? '' : '[b]'+pagante+'[/b] deve Pagar '+p1calc+' para [b]'+p1+'[/b].'  
+				text += p2calc ? '': '[b]'+pagante+'[/b] deve Pagar '+p2calc+' para [b]'+p2+'[/b].'
+				text += p3calc ? '': '[b]'+pagante+'[/b] deve Pagar '+p3calc+' para [b]'+p3+'[/b].'
+				text += 'O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada player' 
+
+				// TEMPLATE STRING
+				var tempstringText = p1calc || `[b]${pagante}[/b] deve Pagar ${p1calc} para [b]${p1}[/b]`
+
+				console.log(tempstringText)
 				return text
 			}
 
@@ -274,7 +288,7 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 						
 					}else if(pagante =='EK'){ PagName = NameEK
 						
-					}else if(pagante == 'RP'){ PagName = NameRP}
+					}else if(pagante == 'RP'){ PagName = NameRP } 
 					
 					
 					// CHECK NOME DE CADA VOCAÇAO
@@ -294,19 +308,6 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 				}
 			}
 
-			function addCommas(nStr)
-			{
-				nStr += '';
-				x = nStr.split('.');
-				x1 = x[0];
-				x2 = x.length > 1 ? '.' + x[1] : '';
-				var rgx = /(\d+)(\d{3})/;
-				while (rgx.test(x1)) {
-					x1 = x1.replace(rgx, '$1' + ',' + '$2');
-				}
-				return x1 + x2;
-			}
-
 			console.log($.number(resumecalc.Profit))
 
 			if(resumecalc.pagante == "EK"){
@@ -320,7 +321,7 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 				
 				if(resumecalc.RP){ textToInsert += CalcVocation(resumecalc.pagante, 'RP', resumecalc.RP, '3') }
 
-				var ReplaceNumbemProfit = $.number(resumecalc.Profit)
+				var ReplaceNumbemProfit = resumecalc.Profit	
 
 				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit+'</span></b> para cada player'
 
@@ -335,13 +336,13 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 				$('.pagante').html(NameED)
 
 				var textToInsert = ''
-				if(resumecalc.EK){ textToInsert += CalcVocation(resumecalc.pagante, 'EK', resumecalc.ED, '1') }
+				if(resumecalc.EK){ textToInsert += CalcVocation(resumecalc.pagante, 'EK', resumecalc.EK, '1') }
 
 				if(resumecalc.MS){ textToInsert += CalcVocation(resumecalc.pagante, 'MS', resumecalc.MS, '2') }
 				
 				if(resumecalc.RP){ textToInsert += CalcVocation(resumecalc.pagante, 'RP', resumecalc.RP, '3') }
 
-				var ReplaceNumbemProfit = $.number(resumecalc.Profit)
+				var ReplaceNumbemProfit = resumecalc.Profit	
 
 				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit+'</span></b> para cada player'
 
@@ -355,15 +356,15 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 				$('.pagante').html( NameMS )
 
 				var textToInsert = ''
-				if(resumecalc.EK){ textToInsert += CalcVocation(resumecalc.pagante, 'EK', resumecalc.ED, '1') }
+				if(resumecalc.EK){ textToInsert += CalcVocation(resumecalc.pagante, 'EK', resumecalc.EK, '1') }
 
-				if(resumecalc.ED){ textToInsert += CalcVocation(resumecalc.pagante, 'ED', resumecalc.MS, '2') }
+				if(resumecalc.ED){ textToInsert += CalcVocation(resumecalc.pagante, 'ED', resumecalc.ED, '2') }
 				
 				if(resumecalc.RP){ textToInsert += CalcVocation(resumecalc.pagante, 'RP', resumecalc.RP, '3') }
 
-				var ReplaceNumbemProfit = $.number(resumecalc.Profit)
+				var ReplaceNumbemProfit = resumecalc.Profit	
 
-				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit+'</span></b> para cada player'
+				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit.Math.floor+'</span></b> para cada player'
 
 				$('.codigo_ts').find('p').html(textToInsert)
 
@@ -375,13 +376,13 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 				$('.pagante').html($('.name_rp').html())
 
 				var textToInsert = ''
-				if(resumecalc.EK){ textToInsert += CalcVocation(resumecalc.pagante, 'EK', resumecalc.ED, '1') }
+				if(resumecalc.EK){ textToInsert += CalcVocation(resumecalc.pagante, 'EK', resumecalc.EK, '1') }
 
-				if(resumecalc.ED){ textToInsert += CalcVocation(resumecalc.pagante, 'ED', resumecalc.MS, '2') }
+				if(resumecalc.ED){ textToInsert += CalcVocation(resumecalc.pagante, 'ED', resumecalc.ED, '2') }
 				
 				if(resumecalc.MS){ textToInsert += CalcVocation(resumecalc.pagante, 'MS', resumecalc.RP, '3') }
 
-				var ReplaceNumbemProfit = $.number(resumecalc.Profit)
+				var ReplaceNumbemProfit = resumecalc.Profit	
 
 				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit+'</span></b> para cada player'
 
@@ -394,7 +395,7 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 			}
 
 			$('.valor_lucro').number(true)
-			$('[class^="pagamento_"]').number(true)
+			// $('[class^="pagamento_"]').number(true)
 			//$( '[class^="balance_"]' ).number(true)
 
 			new ClipboardJS('.copytoTransfer', {
@@ -437,6 +438,7 @@ O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada pla
 			$('.sondnotify').trigger('play')
 		})
 
+		
 
 	//Form Submit
 		$('.infowastes').submit(function(event) {

@@ -261,7 +261,7 @@ jQuery(document).ready(function($) {
 				var text = p1calc ? '' : '[b]'+pagante+'[/b] deve Pagar '+p1calc+' para [b]'+p1+'[/b].'  
 				text += p2calc ? '': '[b]'+pagante+'[/b] deve Pagar '+p2calc+' para [b]'+p2+'[/b].'
 				text += p3calc ? '': '[b]'+pagante+'[/b] deve Pagar '+p3calc+' para [b]'+p3+'[/b].'
-				text += 'O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada player' 
+				text += `O valor de lucro será de [b][color=green]${profitclc}[/color][/b] para cada player`
 
 				// TEMPLATE STRING
 				var tempstringText = p1calc || `[b]${pagante}[/b] deve Pagar ${p1calc} para [b]${p1}[/b]`
@@ -281,7 +281,7 @@ jQuery(document).ready(function($) {
 
 				if(value){
 					// CHECK NOME DO PAGANTE
-					if(pagante == 'ED'){ pagante = NameED
+					if(pagante == 'ED'){ PagName = NameED
 						
 					}else if(pagante == 'MS'){ PagName = NameMS
 						

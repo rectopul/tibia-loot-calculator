@@ -56,7 +56,7 @@
 		return balancegpto
 	}
 
-	console.log(balancestest(1700000, 2450000, -625000, -312000))
+	//console.log(balancestest(1700000, 2450000, -625000, -312000))
 	
 
 
@@ -281,23 +281,17 @@ jQuery(document).ready(function($) {
 
 				if(value){
 					// CHECK NOME DO PAGANTE
-					if(pagante == 'ED'){ PagName = NameED
-						
-					}else if(pagante == 'MS'){ PagName = NameMS
-						
-					}else if(pagante =='EK'){ PagName = NameEK
-						
-					}else if(pagante == 'RP'){ PagName = NameRP } 
+					if(pagante == 'ED'){ PagName = NameED }
+					if(pagante == 'MS'){ PagName = NameMS }
+					if(pagante == 'EK'){ PagName = NameEK }
+					if(pagante == 'RP'){ PagName = NameRP } 
 					
 					
 					// CHECK NOME DE CADA VOCAÇAO
-					if(vocation == 'ED'){ nameVocInsert = NameED
-
-					}else if(vocation == 'MS'){ nameVocInsert = NameMS
-
-					}else if(vocation == 'EK'){ nameVocInsert = NameEK
-
-					}else if(vocation == 'RP'){ nameVocInsert = NameRP}
+					if(vocation == 'ED'){ nameVocInsert = NameED }
+					if(vocation == 'MS'){ nameVocInsert = NameMS }
+					if(vocation == 'EK'){ nameVocInsert = NameEK }
+					if(vocation == 'RP'){ nameVocInsert = NameRP }
 
 										
 					text_dinamic_calc = `<b><span class="pagante">${PagName}</span></b> deve Pagar <span class="pagamento_${playernumber}">

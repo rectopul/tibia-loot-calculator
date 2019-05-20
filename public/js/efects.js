@@ -108,7 +108,6 @@ jQuery(document).ready(function($) {
 		const socket = io()
 		socket.on('connect', function(client){
 			$('.status_connect').html('Conectado')
-
 		})
 
 		// form user
@@ -364,7 +363,7 @@ jQuery(document).ready(function($) {
 
 				var ReplaceNumbemProfit = resumecalc.Profit	
 
-				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit.Math.floor+'</span></b> para cada player'
+				textToInsert += 'O valor de lucro será de <b><span class="valor_lucro">'+ReplaceNumbemProfit+'</span></b> para cada player'
 
 				$('.codigo_ts').find('p').html(textToInsert)
 

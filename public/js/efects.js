@@ -266,7 +266,7 @@ jQuery(document).ready(function($) {
 				// TEMPLATE STRING
 				var tempstringText = p1calc || `[b]${pagante}[/b] deve Pagar ${p1calc} para [b]${p1}[/b]`
 
-				console.log(text)
+				//console.log(text)
 				return text
 			}
 

@@ -133,7 +133,7 @@ var users = [],
 									ck_voc = 'Paladino'
 
 								if ( object_rooms[data][i].vocation === ck_voc )	{
-									object_rooms[data][i][`character`] = wst[0].value
+									object_rooms[data][i][`character`] = reschar.name
 									object_rooms[data][i][`wast`] = parseInt(wst[2].value)
 									object_rooms[data][i][`world`] = reschar.world
 								}

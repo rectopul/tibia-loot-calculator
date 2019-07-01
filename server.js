@@ -3,9 +3,20 @@ const app = require('express')()
 const path = require('path')
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
+const request = require('request')
+const bodyParser = require('body-parser')
+const exports_calc = require('./public/js/calc')
+const ck_charname = require('./public/js/tibiarequest.js')
+const crypto = require('crypto')
+// crypto.randomBytes(5, (err, buf) => {
+//   if (err) throw err;
+//   console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
+// })
 var users = [],
 	rooms = [],
-	connections = []
+	connections = [],
+	object_rooms = {}
+	
 
 
 //Configuraçoes
@@ -30,15 +41,14 @@ var users = [],
 			updateusers()
 			connections.splice(connections.indexOf(socket), 1)
 			console.log(users)
-			//console.log('Disconnected: %s sockets connected', connections.length)
+			console.log('Disconnected: %s sockets connected', connections.length)
 		})
 
 
-		socket.on('new user', function(data, callback){
+		socket.on('new user', (username)=> {
 			
-			callback(true)
-			socket.username = data
-			
+			//callback(true)
+			socket.username = username			
 			users.push(socket.username)
 			updateusers()
 			console.log(users)
@@ -47,9 +57,33 @@ var users = [],
 		// Create rooms
 
 		socket.on('create', (room)=>{
+			object_rooms[room] = [
+				{
+					character : null,
+					vocation : `Knight`,
+					wast : ``
+				},
+				{
+					character : null,
+					vocation : `Paladino`,
+					wast : ``
+				},
+				{
+					character : null,
+					vocation : `Sorcerer`,
+					wast : ``
+				},
+				{
+					character : null,
+					vocation : `Druid`,
+					wast : ``
+				}
+			]
 			rooms.push(room)
 			socket.emit('getRooms', rooms)
-			//console.log(rooms)
+			io.sockets.emit('rooms', rooms)
+			io.emit(`notice`, `notice ${socket.username} Entrered in system`)
+			console.log(object_rooms)
 		})
 
 
@@ -58,54 +92,91 @@ var users = [],
 
 		socket.on('getRooms', function() {
 		    io.sockets.emit('rooms', rooms)
-		    console.log(rooms)
+		    console.log(JSON.stringify(rooms))
 		})
 
 		function updateusers(){
 			io.sockets.emit('get user', users)
 		}
 
+		
+
 		// Join room
 
-		socket.on('subscribe', (data) => { 
-			socket.join(data.room)
+		socket.on('connectToRoom', (data) => { 
+			socket.join(data)
+			socket.broadcast.to(data).emit( 'notice', `${socket.username} has joined to room ${data}` )
+			io.emit( `notice`, `${socket.username} has joined to room ${data}` )			
+			console.log(`${socket.username} entrou na sala: ${data}`)
+			
+			socket.on( `wast`, (wst)=>{
+				console.log( `values wst ${JSON.stringify(wst)} \n`)
 
-			io.sockets.emit('join_to_room', data.room)
+				//CHECK CHARACTER
+				var ch_cn = async()=>{
+					try{
+						var reschar = await ck_charname(wst[0].value)
+						let ck_voc
+						console.log(reschar)
+						if(reschar.name){
+							for (let i in object_rooms[data]) {
+								if(reschar.vocation === `Elite Knight` || reschar.vocation === `Knight`)
+									ck_voc = 'Knight'
 
-			console.log('Voce entrouy na sala: '+ data.room)
+								if(reschar.vocation === `Elder Druid` || reschar.vocation === `Druid`)
+									ck_voc = 'Druid'
+									
+								if(reschar.vocation === `Master Sorcerer` || reschar.vocation === `Sorcerer`)
+									ck_voc = 'Sorcerer'
+
+								if(reschar.vocation === `Royal Paladin` || reschar.vocation === `Paladin`)
+									ck_voc = 'Paladino'
+
+								if ( object_rooms[data][i].vocation === ck_voc )	{
+									object_rooms[data][i][`character`] = wst[0].value
+									object_rooms[data][i][`wast`] = parseInt(wst[2].value)
+									object_rooms[data][i][`world`] = reschar.world
+								}
+							}
+							
+							//Emite a wasta para a sala				
+							let res = exports_calc({
+								char : object_rooms[data][0].character,
+								balance : parseInt(object_rooms[data][0].wast)
+							}, {
+								char : object_rooms[data][1].character,
+								balance : parseInt(object_rooms[data][1].wast)
+							}, {
+								char: object_rooms[data][3].character,
+								balance : parseInt(object_rooms[data][3].wast)
+							}, {
+								char: object_rooms[data][2].character,
+								balance : parseInt(object_rooms[data][2].wast)
+							})
+							let pft = object_rooms[data]
+							io.to(data).emit( `wast`, {res, pft})
+							console.log( `\nArray de wasts: \n`)
+							console.log( object_rooms[data] )
+							console.log(res)
+						}else{
+							io.to(data).emit( `char not found`, `Opa! O nick do char que você informou parece não existir` )
+						}							
+					}catch(e){
+						console.log(`erro`, e)
+					}
+				}
+
+				ch_cn()				
+			})
 
 			socket.on('msg', function(msg){
 	            //envia a mensagem para a sala <id>
-	            io.to(data.room).emit('msg', msg)
-	            console.log(msg);
+	            io.to(data).emit('msg', msg)
+	            console.log(msg)
 	        })
 		})
 	})
-var listips = `
-187.17.123.136/32
-187.17.123.82/32
-187.17.123.80/32
-187.17.123.78/32
-187.17.123.79/32
-187.17.123.77/32
-187.17.123.76/32
-187.17.123.48/32
-187.17.123.47/32
-187.17.123.46/32
-52.67.255.165/32
-191.232.244.14/32
-191.235.80.17/32
-191.232.183.87/32
-191.232.166.110/32
-170.82.175.0/24
-200.170.221.64/29
-200.150.5.24/29
-201.157.234.40/29
-195.181.162.128/26
-187.16.245.192/29
-201.148.101.24/29
-191.232.54.176/32`
 
 http.listen(process.env.PORT || 3000, function(){
-	console.log(`Servidor Rodando INSTANCIANDO ipS aGUARDE A RELAÇAO \nLista de IPS: ${listips}`)
+	console.log(`Servidor Rodando`)
 })

@@ -48,6 +48,8 @@ body .card_buttoms { position: relative;}
 	font-weight: bold;
 }
 
+.vocation-select{display: none;}
+
 .buttonsvoc > div{
 	width: 175px;
 	height: 100%;
@@ -141,4 +143,16 @@ body .card_buttoms { position: relative;}
 .receb_2:hover,
 .receb_3:hover {
 	color: #068;
+}
+.resume_of_calc > div.card-body > p > p:not(:last-child){
+	font-size: .9rem;
+	letter-spacing: -1px;
+}
+.resume_of_calc > div.card-body > p > p:not(:last-child){
+	cursor: pointer;
+	margin-bottom: 0;
+}
+
+.resume_of_calc > div.card-body > p > p:not(:last-child):hover{
+	color: orange;
 }

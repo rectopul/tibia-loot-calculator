@@ -116,7 +116,6 @@ $( document ).ready(()=> {
 
 		$( `.resume_of_calc > div.card-body > p > p:not(:last-child)` ).click(function (e) { 
 			e.preventDefault()
-			//let gen_txt = `Transfer ${$( this ).find( `font` ).text()} to ${$( this ).find( `b:eq( 2 )` ).text()}`
 			textTsCopy = `Transfer ${$( this ).find( `font` ).text()} to ${$( this ).find( `b:eq( 2 )` ).text()}`
 			//Copy to TS
 
@@ -130,10 +129,9 @@ $( document ).ready(()=> {
 
 		//Copy to TS
 		copyotsfunc.on('success', function(e) {
-			//console.info('Action:', e.action);
+			//console.info('Action:', e.action)
 			//console.info('Text:', e.text)
-			//console.info('Trigger:', e.trigger);
-
+			//console.info('Trigger:', e.trigger)
 			e.clearSelection()
 		})
 

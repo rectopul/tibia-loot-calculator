@@ -1,7 +1,5 @@
 
 const request = require('request')
-//const url = `https://api.tibiadata.com/v2/characters/rogeirinho.json`
-
 
 function makeRequest(url) {
     return new Promise((resolve, reject) => {

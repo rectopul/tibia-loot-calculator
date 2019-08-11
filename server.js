@@ -7,7 +7,9 @@ const request = require('request')
 const bodyParser = require('body-parser')
 const exports_calc = require('./public/js/calc')
 const ck_charname = require('./public/js/tibiarequest.js')
+const chekctibia = require('./public/js/chartibia.js')
 const crypto = require('crypto')
+const buy = 0
 // crypto.randomBytes(5, (err, buf) => {
 //   if (err) throw err;
 //   console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
@@ -28,8 +30,28 @@ var users = [],
 	app.get('/', (req, res) =>{
 		res.sendFile(__dirname+'/index.html')
 	})
+	app.get('/panel', (req, res) =>{
+		res.sendFile(__dirname+'/painel/painel.html')
+	})
+
+//Test Get site tibia
+let req_tibia = async() => {
+	try {
+		var restibia = await chekctibia(`Guardiao de Relembra`)
+		console.log(`Resposta do site: `, restibia)
+	} catch (error) {
+		console.error(`Nao veio nada de bom`, error)
+	}	
+}
+
+req_tibia()
+
 
 //socket io
+	io.on('buy', ()=>{
+
+		io.broadcast.emit('buy_ok', buy++)
+	})
 	io.on('connection', (socket)=>{
 		connections.push(socket)
 		//updateusers()
@@ -115,7 +137,7 @@ var users = [],
 				//CHECK CHARACTER
 				var ch_cn = async()=>{
 					try{
-						var reschar = await ck_charname(wst[0].value)
+						var reschar = await ck_charname(wst[0].value)					
 						let ck_voc
 						console.log(reschar)
 						if(reschar.name){
@@ -173,7 +195,8 @@ var users = [],
 	            //envia a mensagem para a sala <id>
 	            io.to(data).emit('msg', msg)
 	            console.log(msg)
-	        })
+			})			
+		
 		})
 	})
 
